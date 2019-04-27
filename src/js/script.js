@@ -41,7 +41,7 @@ function toStartGray(item) {
     item.readOnly = true;
     item.disabled = 'disabled';
     item.classList.add('non-active');
-    item.style.backgroundColor = '#acacac';
+    // item.style.backgroundColor = '#acacac';
 }
 
 function toStartWhite(item) {
@@ -250,6 +250,11 @@ checkSavings.addEventListener('click', function () {
 
 chooseSum.addEventListener('input', function() {
     if (appData.savings == true) {
+        for (let i = 0; i < chooseSum.value.length; i++) {
+            if (chooseSum.value[i] == ',') {
+                chooseSum.value = chooseSum.value.slice(0, chooseSum.value.indexOf(',')) + '.';
+            };
+        };
         let sum = +chooseSum.value,
             percent = +choosePercent.value;
         
@@ -263,17 +268,20 @@ chooseSum.addEventListener('input', function() {
 
 choosePercent.addEventListener('input', function() {
     if (appData.savings == true) {
-        if (appData.savings == true) {
-            let sum = +chooseSum.value,
-                percent = +choosePercent.value;
-            
-            appData.monthIncome = sum/100/12*percent;
-            appData.yearIncome = sum/100*percent;
-    
-            monthSavingsValue.textContent = appData.monthIncome.toFixed(1);
-            yearSavingsValue.textContent = appData.yearIncome.toFixed(1);
-        };   
-    };
+        for (let i = 0; i < choosePercent.value.length; i++) {
+            if (choosePercent.value[i] == ',') {
+                choosePercent.value = choosePercent.value.slice(0, choosePercent.value.indexOf(',')) + '.';
+            };
+        };
+        let sum = +chooseSum.value,
+            percent = +choosePercent.value;
+        
+        appData.monthIncome = sum/100/12*percent;
+        appData.yearIncome = sum/100*percent;
+
+        monthSavingsValue.textContent = appData.monthIncome.toFixed(1);
+        yearSavingsValue.textContent = appData.yearIncome.toFixed(1);
+    };   
 });
 
 let appData = {
