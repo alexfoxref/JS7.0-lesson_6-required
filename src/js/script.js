@@ -51,30 +51,30 @@ function toStartWhite(item) {
     item.style.backgroundColor = '#fff';
 }
 
-toStartGray(expensesInputs[0]);
-toGray(expensesInputs, 1);
-toStartGray(optionalExpensesInputs[0]);
-toGray(optionalExpensesInputs, 1);
-toStartGray(chooseIncome);
-toStartGray(chooseSum);
-toStartGray(choosePercent);
-toStartGray(yearValue);
-toStartGray(monthValue);
-toStartGray(dayValue);
-toStartGray(checkSavings);
+// toStartGray(expensesInputs[0]);
+// toGray(expensesInputs, 1);
+// toStartGray(optionalExpensesInputs[0]);
+// toGray(optionalExpensesInputs, 1);
+// toStartGray(chooseIncome);
+// toStartGray(chooseSum);
+// toStartGray(choosePercent);
+// toStartGray(yearValue);
+// toStartGray(monthValue);
+// toStartGray(dayValue);
+// toStartGray(checkSavings);
 
 start.addEventListener('click', function() {
     
     btnCalc.classList.remove('non-active');
     btnCalc.style.backgroundImage = strButAct;
     
-    toStartWhite(expensesInputs[0]);
-    toStartWhite(optionalExpensesInputs[0]);
-    toStartWhite(chooseIncome);
-    toStartWhite(checkSavings);
-    toStartWhite(yearValue);
-    toStartWhite(monthValue);
-    toStartWhite(dayValue);
+    // toStartWhite(expensesInputs[0]);
+    // toStartWhite(optionalExpensesInputs[0]);
+    // toStartWhite(chooseIncome);
+    // toStartWhite(checkSavings);
+    // toStartWhite(yearValue);
+    // toStartWhite(monthValue);
+    // toStartWhite(dayValue);
 
 
     time = prompt("Введите дату в формате YYYY-MM-DD", "");
@@ -159,8 +159,8 @@ function changeActiveInput(expensesinputs) {
         }
     }
 }
-changeActiveInput(expensesInputs);
-changeActiveInput(optionalExpensesInputs);
+// changeActiveInput(expensesInputs);
+// changeActiveInput(optionalExpensesInputs);
 
 
 function changeActiveButton(expensesinputs, btnexpenses) {
@@ -188,7 +188,7 @@ changeActiveButton(expensesInputs, btnExpenses);
 changeActiveButton(optionalExpensesInputs, btnOptExpenses);
 
 btnOptExpenses.addEventListener('click', function() {
-    if (btnExpenses.classList.contains('non-active')) {
+    if (btnOptExpenses.classList.contains('non-active')) {
         return;
     } else {
         for (let i = 1, n = (optionalExpensesInputs.length + 1); i < n; i++) {
