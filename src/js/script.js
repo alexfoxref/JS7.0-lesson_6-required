@@ -62,9 +62,12 @@ function toStartWhite(item) {
 // toStartGray(monthValue);
 // toStartGray(dayValue);
 // toStartGray(checkSavings);
-
+let count = false;
 start.addEventListener('click', function() {
-    
+    count = true;
+    changeActiveInput(expensesInputs, btnExpenses);
+    changeActiveInput(optionalExpensesInputs, btnOptExpenses);
+
     btnCalc.classList.remove('non-active');
     btnCalc.style.backgroundImage = strButAct;
     
@@ -110,57 +113,88 @@ function toGray(inputs, k) {
 
 
 btnExpenses.addEventListener('click', function() {
-    if (btnExpenses.classList.contains('non-active')) {
-        return;
-    } else {
-        let sum = 0;
-
-        for (let i = 0; i < expensesInputs.length - 1; i++) {
-            let answerExpenses,
-                answerTotal;
-            
-            if (expensesInputs[i].value != '') {
-                answerExpenses = expensesInputs[i].value;
-            
-                if (expensesInputs[i + 1].value != '') {
-                    answerTotal = expensesInputs[++i].value;
+        if (btnExpenses.classList.contains('non-active')) {
+            return;
+        } else {
+            let sum = 0;
+    
+            for (let i = 0; i < expensesInputs.length - 1; i++) {
+                let answerExpenses,
+                    answerTotal;
                 
-                    if ( (typeof(answerExpenses)) === 'string' && (typeof(answerExpenses)) != null && (typeof(answerTotal)) != null 
-                        && answerExpenses != '' && answerTotal != '' && answerExpenses.length < 50 ) {
-                        console.log('done');
-                        appData.expenses[answerExpenses] = +answerTotal;
-                        sum += +answerTotal;
-                    }
+                if (expensesInputs[i].value != '') {
+                    answerExpenses = expensesInputs[i].value;
                 } else {
-                    continue;
+                    answerExpenses = '';
                 }
-            } else {
-                continue;
+                    if (expensesInputs[i + 1].value != '') {
+                        answerTotal = expensesInputs[++i].value;
+                    
+                        // if ( (typeof(answerExpenses)) === 'string' && (typeof(answerExpenses)) != null && (typeof(answerTotal)) != null 
+                        //     && answerExpenses != '' && answerTotal != '' && answerExpenses.length < 50 ) {
+                        //     console.log('done');
+                            appData.expenses[answerExpenses] = +answerTotal;
+                            sum += +answerTotal;
+                        // }
+                    } else {
+                        answerTotal = 0;
+                        appData.expenses[answerExpenses] = +answerTotal;
+                        sum += answerTotal;
+                    }
+                
             }
+            expensesValue.textContent = sum;
         }
-        expensesValue.textContent = sum;
-    }
+    
 });
 
-function changeActiveInput(expensesinputs) {
-    for (let i = 1; i < expensesinputs.length; i++) {
-        expensesinputs[i - 1].addEventListener('change', function() {
-            toStartWhite(expensesinputs[i]);
-            if (expensesinputs[i - 1].value.trim() == '') {
-                toGray(expensesinputs, i);
-            }
-        });
-        
-        if (expensesinputs[i - 1].value == '') {
-            expensesinputs[i - 1].value = expensesinputs[i - 1].value.trim();
-            for (let j = i; j < expensesinputs.length; j++) {
-                toStartGray(expensesinputs[j]);
-            }      
-        }
-    }
+for (let i = 0; i < expensesInputs.length; i++) {
+    expensesInputs[i].addEventListener('change', function() {
+        changeActiveInput(expensesInputs, btnExpenses);
+    });
 }
-// changeActiveInput(expensesInputs);
-// changeActiveInput(optionalExpensesInputs);
+
+for (let i = 0; i < optionalExpensesInputs.length; i++) {
+    optionalExpensesInputs[i].addEventListener('change', function() {
+        changeActiveInput(optionalExpensesInputs, btnOptExpenses);
+    });
+}
+
+function changeActiveInput(expensesinputs, btnexpenses) {
+    // for (let i = 1; i < expensesinputs.length; i++) {
+        // expensesinputs[i - 1].addEventListener('change', function() {
+        //     toStartWhite(expensesinputs[i]);
+        //     if (expensesinputs[i - 1].value.trim() == '') {
+        //         toGray(expensesinputs, i);
+        //     }
+        // });
+        
+        // if (expensesinputs[i - 1].value == '') {
+        //     expensesinputs[i - 1].value = expensesinputs[i - 1].value.trim();
+        //     for (let j = i; j < expensesinputs.length; j++) {
+        //         toStartGray(expensesinputs[j]);
+        //     }
+        // }
+
+            if (count) {
+                let counter = 0;
+                for (let j = 0; j < expensesinputs.length; j++) {
+                    if (expensesinputs[j].value.trim() != '') {
+                        counter++;
+                    }
+                }
+                if (counter > 0) {
+                    btnexpenses.classList.remove('non-active');
+                    btnexpenses.style.background = strButAct; 
+                } else {
+                    btnexpenses.classList.add('non-active');
+                    btnexpenses.style.background = strButNA;
+                }
+                    
+            }
+        // });
+    // }
+}
 
 
 function changeActiveButton(expensesinputs, btnexpenses) {
@@ -184,19 +218,22 @@ function changeActiveButton(expensesinputs, btnexpenses) {
     };
 }
 
-changeActiveButton(expensesInputs, btnExpenses);
-changeActiveButton(optionalExpensesInputs, btnOptExpenses);
+// changeActiveButton(expensesInputs, btnExpenses);
+// changeActiveButton(optionalExpensesInputs, btnOptExpenses);
 
 btnOptExpenses.addEventListener('click', function() {
     if (btnOptExpenses.classList.contains('non-active')) {
         return;
     } else {
-        for (let i = 1, n = (optionalExpensesInputs.length + 1); i < n; i++) {
-            let answerOptExpenses = optionalExpensesInputs[i-1].value;
+        for (let i = 0, n = (optionalExpensesInputs.length); i < n; i++) {
+            let answerOptExpenses = optionalExpensesInputs[i].value;
             
             appData.optionalExpenses[i] = answerOptExpenses;
-
-            optionalExpensesValue.textContent += appData.optionalExpenses[i] + ' ';
+            
+        }
+        optionalExpensesValue.textContent = '';
+        for (let j = 0; j < optionalExpensesInputs.length; j++) {
+            optionalExpensesValue.textContent += appData.optionalExpenses[j] + ' ';
         }
     }
 });
